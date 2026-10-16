@@ -10,10 +10,10 @@ def get_connection():
 
 
 def manage_database():
-    get_connection()
-    cursor = get_connection().cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY, name TEXT NOT NULL, quantity INTEGER NOT NULL CHECK (quantity >= 0))")
-    get_connection().close()
+    connection.close()
 
 
 manage_database()
@@ -73,6 +73,7 @@ def search_item(item_name):
     cursor.execute("SELECT * FROM items WHERE name = ?", (item_name,))
     founded_item = cursor.fetchone()
     if not founded_item:
+        connection.close()
         raise HTTPException(status_code=404, detail="Item not found")    
     connection.close()
     return founded_item
