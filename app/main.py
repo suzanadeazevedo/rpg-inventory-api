@@ -4,8 +4,10 @@ import sqlite3
 
 """Database SQLite3"""
 
-def get_connection():
-    connection = sqlite3.connect("inventory.db")
+database_name = "inventory.db"
+
+def get_connection(chosen_table = database_name):    
+    connection = sqlite3.connect(chosen_table)
     return connection
 
 
